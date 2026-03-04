@@ -1,0 +1,15 @@
+{
+  "provider": "qwen",
+  "baseUrl": "https://dashscope.aliyuncs.com/api/v1/",
+  "api": "openai-compatible",
+  "models": [
+    {
+      "id": "qwen3.5-plus",
+      "name": "通义千问 3.5 Plus",
+      "reasoning": true
+    }
+  ],
+  "headers": {
+    "Authorization": "Bearer {{API_KEY}}"
+  }
+}
