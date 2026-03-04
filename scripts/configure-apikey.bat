@@ -38,3 +38,115 @@ if "%choice%"=="6" goto CONFIG_CUSTOM
 echo 无效选择
 pause
 exit /b 1
+
+:CONFIG_BAILIAN
+echo.
+echo ─── 阿里百炼配置 ⭐️⭐️⭐️ ───
+echo.
+echo 获取 API Key：https://bailian.console.aliyun.com
+echo.
+set /p apikey="请输入 API Key: "
+
+echo {> "%CONFIG_FILE%"
+echo "meta": { "lastTouchedVersion": "2026.3.3" },>> "%CONFIG_FILE%"
+echo "models": {>> "%CONFIG_FILE%"
+echo "mode": "merge",>> "%CONFIG_FILE%"
+echo "providers": {>> "%CONFIG_FILE%"
+echo "bailian": {>> "%CONFIG_FILE%"
+echo "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",>> "%CONFIG_FILE%"
+echo "api": "openai-compatible",>> "%CONFIG_FILE%"
+echo "models": [{ "id": "qwen-plus", "name": "通义千问 Plus", "reasoning": true }],>> "%CONFIG_FILE%"
+echo "headers": { "Authorization": "Bearer %apikey%" }>> "%CONFIG_FILE%"
+echo }>> "%CONFIG_FILE%"
+echo }>> "%CONFIG_FILE%"
+echo },>> "%CONFIG_FILE%"
+echo "agents": { "defaults": { "model": { "primary": "bailian/qwen-plus" } } },>> "%CONFIG_FILE%"
+echo "gateway": { "port": 18789, "mode": "local", "bind": "loopback" }>> "%CONFIG_FILE%"
+echo }>> "%CONFIG_FILE%"
+goto CONFIG_DONE
+
+:CONFIG_KIMI
+echo.
+echo ─── Moonshot Kimi 配置 ───
+echo.
+set /p apikey="请输入 API Key：https://platform.moonshot.cn "
+echo {> "%CONFIG_FILE%"
+echo "meta": { "lastTouchedVersion": "2026.3.3" },>> "%CONFIG_FILE%"
+echo "models": { "mode": "merge", "providers": { "kimi-coding": { "baseUrl": "https://api.kimi.com/coding/", "api": "anthropic-messages", "models": [{ "id": "k2p5", "name": "Kimi for Coding", "reasoning": true }], "headers": { "Authorization": "Bearer %apikey%" } } } },>> "%CONFIG_FILE%"
+echo "agents": { "defaults": { "model": { "primary": "kimi-coding/k2p5" } } },>> "%CONFIG_FILE%"
+echo "gateway": { "port": 18789, "mode": "local", "bind": "loopback" }>> "%CONFIG_FILE%"
+echo }>> "%CONFIG_FILE%"
+goto CONFIG_DONE
+
+:CONFIG_GLM
+echo.
+echo ─── 智谱 GLM-5 配置 ───
+echo.
+set /p apikey="请输入 API Key：https://open.bigmodel.cn "
+echo {> "%CONFIG_FILE%"
+echo "meta": { "lastTouchedVersion": "2026.3.3" },>> "%CONFIG_FILE%"
+echo "models": { "mode": "merge", "providers": { "zhipu": { "baseUrl": "https://open.bigmodel.cn/api/paas/v4/", "api": "openai-compatible", "models": [{ "id": "glm-5", "name": "智谱 GLM-5", "reasoning": true }], "headers": { "Authorization": "Bearer %apikey%" } } } },>> "%CONFIG_FILE%"
+echo "agents": { "defaults": { "model": { "primary": "zhipu/glm-5" } } },>> "%CONFIG_FILE%"
+echo "gateway": { "port": 18789, "mode": "local", "bind": "loopback" }>> "%CONFIG_FILE%"
+echo }>> "%CONFIG_FILE%"
+goto CONFIG_DONE
+
+:CONFIG_MINIMAX
+echo.
+echo ─── MiniMax-M2.5 配置 ───
+echo.
+set /p apikey="请输入 API Key: "
+set /p groupid="请输入 Group ID: "
+echo {> "%CONFIG_FILE%"
+echo "meta": { "lastTouchedVersion": "2026.3.3" },>> "%CONFIG_FILE%"
+echo "models": { "mode": "merge", "providers": { "minimax": { "baseUrl": "https://api.minimax.chat/v1/", "api": "openai-compatible", "models": [{ "id": "MiniMax-M2.5-highspeed", "name": "MiniMax-M2.5", "reasoning": true }], "headers": { "Authorization": "Bearer %apikey%" }, "extraBody": { "group_id": "%groupid%" } } } },>> "%CONFIG_FILE%"
+echo "agents": { "defaults": { "model": { "primary": "minimax/MiniMax-M2.5-highspeed" } } },>> "%CONFIG_FILE%"
+echo "gateway": { "port": 18789, "mode": "local", "bind": "loopback" }>> "%CONFIG_FILE%"
+echo }>> "%CONFIG_FILE%"
+goto CONFIG_DONE
+
+:CONFIG_QWEN
+echo.
+echo ─── 阿里通义 Qwen 配置 ───
+echo.
+set /p apikey="请输入 API Key：https://dashscope.console.aliyun.com "
+echo {> "%CONFIG_FILE%"
+echo "meta": { "lastTouchedVersion": "2026.3.3" },>> "%CONFIG_FILE%"
+echo "models": { "mode": "merge", "providers": { "qwen": { "baseUrl": "https://dashscope.aliyuncs.com/api/v1/", "api": "openai-compatible", "models": [{ "id": "qwen3.5-plus", "name": "通义千问 3.5 Plus", "reasoning": true }], "headers": { "Authorization": "Bearer %apikey%" } } } },>> "%CONFIG_FILE%"
+echo "agents": { "defaults": { "model": { "primary": "qwen/qwen3.5-plus" } } },>> "%CONFIG_FILE%"
+echo "gateway": { "port": 18789, "mode": "local", "bind": "loopback" }>> "%CONFIG_FILE%"
+echo }>> "%CONFIG_FILE%"
+goto CONFIG_DONE
+
+:CONFIG_CUSTOM
+echo.
+
+echo ─── 自定义接口配置 ───
+echo.
+set /p name="提供商名称 (如: api2d): "
+set /p baseurl="Base URL: "
+set /p apikey="API Key: "
+set /p model="模型名称: "
+echo {> "%CONFIG_FILE%"
+echo "meta": { "lastTouchedVersion": "2026.3.3" },>> "%CONFIG_FILE%"
+echo "models": { "mode": "merge", "providers": { "%name%": { "baseUrl": "%baseurl%", "api": "openai-compatible", "models": [{ "id": "%model%", "name": "%model%", "reasoning": true }], "headers": { "Authorization": "Bearer %apikey%" } } } },>> "%CONFIG_FILE%"
+echo "agents": { "defaults": { "model": { "primary": "%name%/%model%" } } },>> "%CONFIG_FILE%"
+echo "gateway": { "port": 18789, "mode": "local", "bind": "loopback" }>> "%CONFIG_FILE%"
+echo }>> "%CONFIG_FILE%"
+goto CONFIG_DONE
+
+:CONFIG_DONE
+echo.
+echo ╔══════════════════════════════════════════════════════════════╗
+echo ║ ✅ 配置完成！ ║
+echo ╚══════════════════════════════════════════════════════════════╝
+echo.
+echo 配置文件: %CONFIG_FILE%
+echo.
+choice /C YN /M "是否立即启动 Gateway"
+if %ERRORLEVEL%==1 (
+call "%~dp0start-gateway.bat"
+) else (
+echo 稍后通过桌面图标启动
+pause
+)
