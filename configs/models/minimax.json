@@ -1,0 +1,15 @@
+{
+  "provider": "minimax",
+  "baseUrl": "https://api.minimax.chat/v1/",
+  "api": "openai-compatible",
+  "models": [
+    {
+      "id": "MiniMax-M2.5-highspeed",
+      "name": "MiniMax-M2.5",
+      "reasoning": true
+    }
+  ],
+  "headers": {
+    "Authorization": "Bearer {{API_KEY}}"
+  }
+}
