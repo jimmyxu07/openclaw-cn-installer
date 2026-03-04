@@ -1,45 +1,45 @@
 name: Build OpenClaw Windows Installer
 
 on:
-push:
-branches: [ main ]
-workflow_dispatch:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-build:
-runs-on: windows-latest
-
-steps:
-- name: Checkout code
-uses: actions/checkout@v4
-
-- name: Download Node.js Portable
-run: |
-$nodeVersion = "22.14.0"
-$url = "https://nodejs.org/dist/v$nodeVersion/node-v$nodeVersion-win-x64.zip"
-Invoke-WebRequest -Uri $url -OutFile "node.zip"
-Expand-Archive -Path "node.zip" -DestinationPath "deps"
-Rename-Item "deps/node-v$nodeVersion-win-x64" "deps/nodejs"
-Remove-Item "node.zip"
-
-- name: Install Inno Setup
-run: choco install innosetup -y
-
-- name: Build Installer
-run: iscc setup.iss
-
-- name: Upload Artifact
-uses: actions/upload-artifact@v4
-with:
-name: OpenClaw-CN-2026.3.3
-path: output/*.exe
-
-- name: Create Release
-if: github.ref == 'refs/heads/main'
-uses: softprops/action-gh-release@v1
-with:
-tag_name: v2026.3.3
-name: OpenClaw 中文版 v2026.3.3
-files: output/*.exe
-env:
-GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  build:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download Node.js Portable
+        run: |
+          $nodeVersion = "22.14.0"
+          $url = "https://nodejs.org/dist/v$nodeVersion/node-v$nodeVersion-win-x64.zip"
+          Invoke-WebRequest -Uri $url -OutFile "node.zip"
+          Expand-Archive -Path "node.zip" -DestinationPath "deps"
+          Rename-Item "deps/node-v$nodeVersion-win-x64" "deps/nodejs"
+          Remove-Item "node.zip"
+          
+      - name: Install Inno Setup
+        run: choco install innosetup -y
+        
+      - name: Build Installer
+        run: iscc setup.iss
+        
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpenClaw-CN-2026.3.3
+          path: output/*.exe
+          
+      - name: Create Release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v2026.3.3
+          name: OpenClaw 中文版 v2026.3.3
+          files: output/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
