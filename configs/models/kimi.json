@@ -1,0 +1,15 @@
+{
+  "provider": "kimi-coding",
+  "baseUrl": "https://api.kimi.com/coding/",
+  "api": "anthropic-messages",
+  "models": [
+    {
+      "id": "k2p5",
+      "name": "Kimi for Coding",
+      "reasoning": true
+    }
+  ],
+  "headers": {
+    "Authorization": "Bearer {{API_KEY}}"
+  }
+}
