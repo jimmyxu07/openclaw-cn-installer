@@ -1,0 +1,15 @@
+{
+  "provider": "bailian",
+  "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+  "api": "openai-compatible",
+  "models": [
+    {
+      "id": "qwen-plus",
+      "name": "通义千问 Plus",
+      "reasoning": true
+    }
+  ],
+  "headers": {
+    "Authorization": "Bearer {{API_KEY}}"
+  }
+}
