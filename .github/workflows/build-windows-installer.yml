@@ -17,10 +17,13 @@ jobs:
         run: |
           $nodeVersion = "22.14.0"
           $url = "https://nodejs.org/dist/v$nodeVersion/node-v$nodeVersion-win-x64.zip"
+          if (Test-Path "node.zip") { Remove-Item "node.zip" }
+          if (Test-Path "deps") { Remove-Item "deps" -Recurse -Force }
           Invoke-WebRequest -Uri $url -OutFile "node.zip"
-          Expand-Archive -Path "node.zip" -DestinationPath "deps"
-          Rename-Item "deps/node-v$nodeVersion-win-x64" "deps/nodejs"
+          Expand-Archive -Path "node.zip" -DestinationPath "."
+          Rename-Item "node-v$nodeVersion-win-x64" "deps"
           Remove-Item "node.zip"
+          Get-ChildItem "deps"
           
       - name: Install Inno Setup
         run: choco install innosetup -y
